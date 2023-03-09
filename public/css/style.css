@@ -1,0 +1,158 @@
+:root{
+    --SoftBlue: hsl(215, 51%, 70%);
+    --Cyan: hsl(178, 100%, 50%);
+
+    --VeryDarkBlueBG: hsl(217, 54%, 11%);
+    --VeryDarkBlueCard: hsl(216, 50%, 16%);
+    --Blueline: hsl(215, 32%, 27%);
+}
+
+*{
+    box-sizing: border-box;
+    padding: 0rem;
+    margin: 0rem;
+}
+
+body{
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--VeryDarkBlueBG);
+}
+
+main{
+    height: 100vh;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+hr{
+    border: 0.0625rem solid var(--Blueline);
+}
+
+.card{
+    background-color: var(--VeryDarkBlueCard);
+    width: 18.75rem;
+    border-radius: 1.25rem;
+    padding:1.25rem;
+    margin: 1.5625rem;
+}
+
+.card-img{
+    position:relative;
+    width: 100%;
+    height: 16.25rem;
+    border-radius: 0.625rem;
+    background-image: url(/images/image-equilibrium.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.card-img-overlay{
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 255, 245, 0.5);
+    border-radius: 0.625rem;
+    top:0;
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.card-img-overlay svg{
+    position: absolute;
+    top:0;
+    right:0;
+    left:0;
+    bottom:0;
+    margin:auto
+}
+
+.card-img:hover{cursor: pointer;}
+.card-img:hover .card-img-overlay{opacity:1}
+
+.card-body h1{
+    font-size: 1.25rem;
+    margin: 1.25rem 0rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.card-body h1:hover{
+    color:var(--Cyan);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.card-body p{
+    color:var(--SoftBlue);
+    margin-bottom: 1.25rem;
+    font-weight: 300;
+}
+
+.stats{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1.25rem;
+}
+
+.stats div{
+    display: flex;
+    align-items: center;
+}
+
+.stats svg{margin-right: 0.4375rem;}
+
+.stats div:first-child{
+    color:var(--Cyan);
+    font-weight: 600;
+}
+
+.stats div:nth-child(2){
+    color:var(--SoftBlue);
+    font-weight: 400;
+}
+
+.card-footer{
+    margin-top: 0.9375rem;
+    margin-bottom: 0.625rem;
+    color:var(--SoftBlue);
+    display: flex;
+    align-items: center;
+}
+
+.card-footer img {
+    width: 1.5625rem;
+    height: auto;
+    outline:0.0625rem solid white;
+    margin-right: 0.8125rem;
+    border-radius: 50%;
+}
+
+.card-footer p{
+    color: var(--SoftBlue);
+    display: inline;
+    font-weight: 400;
+    font-size: small;
+}
+
+.card-footer span{color:white}
+.card-footer span:hover{
+    color:var(--Cyan);
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.attribution {
+    font-size: 0.6875rem;
+    color: #FFF;
+    text-align: center;
+    position: absolute;
+    left:0;
+    right:0;
+    bottom:1rem;
+    margin: 0px auto;
+}
+.attribution a { color: var(--Cyan); }
