@@ -1,5 +1,6 @@
 const express = require('express') //importamos express
 const cors = require('cors')
+const {DBconnection}=require('../database/config')
 
 class Server{
     constructor(){
@@ -7,11 +8,17 @@ class Server{
         this.usersPath="/api/users"
         this.port=process.env.PORT
         
+        //conectar con base de datos
+        this.connectDB()
+
         //crear los middlewares para el servidor
         this.middlewares()
 
         //llamando las rutas en el constructor para q cuando levante el server se carguen las rutas
         this.routes()
+    }
+    async connectDB(){
+        await DBconnection()
     }
     middlewares(){
         //CORS
