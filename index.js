@@ -8,6 +8,7 @@
 // app.listen(3000)
 
 const Server=require('./models/server')
+require('dotenv').config()
 
 const server= new Server()
 

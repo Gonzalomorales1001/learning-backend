@@ -5,6 +5,7 @@ class Server{
     constructor(){
         this.app=express()
         this.usersPath="/api/users"
+        this.port=process.env.PORT
         
         //crear los middlewares para el servidor
         this.middlewares()
@@ -24,8 +25,8 @@ class Server{
         this.app.use(this.usersPath, require("../routes/users"))
     }
     listen(){
-        this.app.listen(3000,()=>{
-            console.log('Server started')
+        this.app.listen(this.port,()=>{
+            console.log(`Server Started (port ${this.port})`)
         })
     }
 }
