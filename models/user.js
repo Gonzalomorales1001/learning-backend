@@ -39,4 +39,10 @@ const UserSchema=Schema({
     }
 })
 
+//manejamos la respuesta del servidor cuando devuelve la instancia de este modelo creado
+UserSchema.methods.toJSON=function(){
+    const {__v,password,...userdata}=this.toObject()
+    return userdata
+}
+
 module.exports=model('User',UserSchema) //creamos el modelo de usuario para despues crear una instancia en la peticion POST

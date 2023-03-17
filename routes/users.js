@@ -3,12 +3,10 @@ const { Router }=require('express')
 //validaciones
 const {check}=require('express-validator')
 const {validate}=require('../middlewares/validate')
-//validacion de rol existente
-const {validRol}=require('../helpers/DBvalidators')
-//validacion de email en uso
-const {userEmailAlreadyInUse}=require('../helpers/DBvalidators')
+//importando validaciones customizadas
+const {validRol,userEmailAlreadyInUse,idUserNotFound}=require('../helpers/DBvalidators')
 
-
+//importando las funciones de controlador
 const {GETusers,POSTusers,PUTusers,DELETEusers}=require('../controllers/users')
 
 const router=Router()
@@ -25,9 +23,18 @@ router.get('/', GETusers)
     validate
   ],POSTusers)
 
-  router.put('/:id', PUTusers)
+  router.put('/:id',[
+    check("id","Invalid MongoDB ID").isMongoId(),
+    check("id").custom(idUserNotFound),
+    // check("rol").custom(validRol),
+    validate
+  ], PUTusers)
 
-  router.delete('/:id', DELETEusers)
+  router.delete('/:id',[
+    check("id","Invalid MongoDB ID").isMongoId(),
+    check("id").custom(idUserNotFound),
+    validate
+  ], DELETEusers)
 
 
 module.exports=router
