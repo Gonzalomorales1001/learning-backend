@@ -9,7 +9,7 @@ const GETusers=async(req=request,res=response)=>{
     const{since=0,until=50,admins=false}=req.query //defino parametros
 
     const statusTrue={status:true} //selecciono los documentos con la propiedad 'status' en true
-    const adminsTrue={rol:"ADMIN"}
+    const adminsTrue={rol:"ADMIN",status:true}
 
     if(admins){
         const admins=await User.find(adminsTrue)
@@ -19,7 +19,7 @@ const GETusers=async(req=request,res=response)=>{
         })
     }
 
-    const [showUsers,total,showAdmins]=await Promise.all([
+    const [showUsers,total]=await Promise.all([
         User.find(statusTrue).skip(since).limit(until), //solo mostrará los usuarios con esta propiedad
         User.countDocuments(statusTrue) //solo contará los usuarios con esta propiedad
     ])
@@ -73,6 +73,8 @@ const PUTusers=async(req=request,res=response)=>{
 const DELETEusers=async(req=request,res=response)=>{
     const {id}=req.params //recibo el id enviado por el usuario
 
+    const logedUser=req.user
+
     //para desactivar usuarios
 
     const userFound=await User.findById(id)
@@ -86,8 +88,9 @@ const DELETEusers=async(req=request,res=response)=>{
     const AFKuser=await User.findByIdAndUpdate(id,{status:false},{new:true})
 
     res.json({
-        "msg":"User status switched to: inactive (false)",
+        "msg":`User status switched to: inactive (false)`,
         AFKuser,
+        "deleted by":logedUser
     })
 
 

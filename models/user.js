@@ -41,7 +41,8 @@ const UserSchema=Schema({
 
 //manejamos la respuesta del servidor cuando devuelve la instancia de este modelo creado
 UserSchema.methods.toJSON=function(){
-    const {__v,password,...userdata}=this.toObject()
+    const {__v,password,_id,...userdata}=this.toObject()
+    userdata.userID=_id
     return userdata
 }
 

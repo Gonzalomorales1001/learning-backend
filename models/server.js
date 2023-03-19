@@ -5,6 +5,7 @@ const {DBconnection}=require('../database/config')
 class Server{
     constructor(){
         this.app=express()
+        this.authPath="/api/auth"
         this.usersPath="/api/users"
         this.port=process.env.PORT
         
@@ -30,6 +31,7 @@ class Server{
     }
     routes(){
         this.app.use(this.usersPath, require("../routes/users"))
+        this.app.use(this.authPath, require('../routes/auth'))
     }
     listen(){
         this.app.listen(this.port,()=>{

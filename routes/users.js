@@ -1,11 +1,13 @@
 const { Router }=require('express')
-
 //validaciones
 const {check}=require('express-validator')
 const {validate}=require('../middlewares/validate')
 //importando validaciones customizadas
 const {validRol,userEmailAlreadyInUse,idUserNotFound}=require('../helpers/DBvalidators')
-
+//importamdo validaciones del token
+const { validateJWT } = require('../middlewares/validateJWT')
+//importando validacion de admin
+const { isAdminRole } = require('../middlewares/validateRole')
 //importando las funciones de controlador
 const {GETusers,POSTusers,PUTusers,DELETEusers}=require('../controllers/users')
 
@@ -24,6 +26,7 @@ router.get('/', GETusers)
   ],POSTusers)
 
   router.put('/:id',[
+    validateJWT,
     check("id","Invalid MongoDB ID").isMongoId(),
     check("id").custom(idUserNotFound),
     // check("rol").custom(validRol),
@@ -31,6 +34,8 @@ router.get('/', GETusers)
   ], PUTusers)
 
   router.delete('/:id',[
+    validateJWT,
+    isAdminRole,
     check("id","Invalid MongoDB ID").isMongoId(),
     check("id").custom(idUserNotFound),
     validate
