@@ -5,10 +5,12 @@ const {DBconnection}=require('../database/config')
 class Server{
     constructor(){
         this.app=express()
+        //definimos el puerto para posteriormente levantar el servidor
+        this.port=process.env.PORT
+        //definimos las rutas del servidor
         this.authPath="/api/auth"
         this.usersPath="/api/users"
-        this.port=process.env.PORT
-        
+        this.categoriesPath="/api/categories"
         //conectar con base de datos
         this.connectDB()
 
@@ -32,6 +34,7 @@ class Server{
     routes(){
         this.app.use(this.usersPath, require("../routes/users"))
         this.app.use(this.authPath, require('../routes/auth'))
+        this.app.use(this.categoriesPath, require('../routes/categories'))
     }
     listen(){
         this.app.listen(this.port,()=>{
