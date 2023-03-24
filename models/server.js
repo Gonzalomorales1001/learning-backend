@@ -11,6 +11,7 @@ class Server{
         this.authPath="/api/auth"
         this.usersPath="/api/users"
         this.categoriesPath="/api/categories"
+        this.coursesPath="/api/courses"
         //conectar con base de datos
         this.connectDB()
 
@@ -35,6 +36,7 @@ class Server{
         this.app.use(this.usersPath, require("../routes/users"))
         this.app.use(this.authPath, require('../routes/auth'))
         this.app.use(this.categoriesPath, require('../routes/categories'))
+        this.app.use(this.coursesPath, require('../routes/courses'))
     }
     listen(){
         this.app.listen(this.port,()=>{

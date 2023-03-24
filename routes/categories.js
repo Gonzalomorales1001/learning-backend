@@ -3,9 +3,9 @@ const { Router }=require('express')
 const {check}=require('express-validator')
 const {validate}=require('../middlewares/validate')
 
-const {idUserNotFound}=require('../helpers/DBvalidators')
 const { validateJWT } = require('../middlewares/validateJWT')
 const { isAdminRole } = require('../middlewares/validateRole')
+const {idCategoryNotFound}=require('../helpers/DBvalidators')
 
 const {getCategories,getCategoryByID,newCategory,updateCategory,deleteCategory}=require('../controllers/categories')
 
@@ -18,7 +18,7 @@ router.get('/',[
 router.get('/:id',[
     validateJWT,
     check("id","Invalid ID").isMongoId(),
-    // check id category
+    check("id").custom(idCategoryNotFound),
     validate
 ],getCategoryByID)
 
@@ -33,7 +33,7 @@ router.put('/:id',[
     validateJWT,
     isAdminRole,
     check("id","Invalid ID").isMongoId(),
-    //check id category
+    check("id").custom(idCategoryNotFound),
     check("category","Name is required").notEmpty(),
     validate
 ],updateCategory)
@@ -42,7 +42,7 @@ router.delete('/:id',[
     validateJWT,
     isAdminRole,
     check("id","Invalid ID").isMongoId(),
-    //check id category
+    check("id").custom(idCategoryNotFound),
     validate
 ],deleteCategory)
 module.exports=router

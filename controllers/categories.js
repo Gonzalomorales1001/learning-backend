@@ -1,5 +1,4 @@
 const {request,response}=require('express')
-const category = require('../models/category')
 const Category=require('../models/category')
 
 const getCategories=async(req=request,res=response)=>{
@@ -30,39 +29,33 @@ const getCategoryByID=async(req=request,res=response)=>{
 const newCategory=async(req=request,res=response)=>{
     const categoryName=req.body.category.toUpperCase()
 
-    const categoryExist=await Category.findOne({category:categoryName})
+    const categoryExist=await Category.findOne({category:categoryName}).populate("user",'name email')
 
     if(categoryExist){
         return res.status(400).json({
-            "msg":`${categoryName} already exists!`
+            "msg":`${categoryExist.category} already exists!`,
+            categoryExist,
         })
     }
 
-    
     const data={
         category:categoryName,
-        user: req.user._id,
+        user:req.user._id
     }
 
-    // res.json({
-    //     data
+    const categoryInstance=new Category(data)
+    
+    // return res.json({
+    //     data,
+    //     categoryInstance
     // })
 
-    const categoryInstance=new Category(data)
-
-    await categoryInstance.save()
+    await categoryInstance.save() //no me deja guardar la nueva instancia en DB
 
     res.status(201).json({
-        "msg":`Category: ${categoryName} has been created successfully!`
+        "msg":`Category: ${categoryName} has been created successfully!`,
+        categoryInstance,
     })
-
-    //
-    //
-    //
-    //
-    //
-    //
-    //converting singular estructure ERROR
 }
 
 const updateCategory=async(req=request,res=response)=>{
@@ -75,7 +68,7 @@ const updateCategory=async(req=request,res=response)=>{
         user
     }
 
-    const category=await Category.findByIdAndUpdate(id,data,{new:true})
+    const category=await Category.findByIdAndUpdate(id,data,{new:true}).populate('user','name email')
 
     res.status(201).json({
         "msg":`${categoryName} has been successfully updated!`

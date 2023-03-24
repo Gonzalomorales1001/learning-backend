@@ -1,5 +1,7 @@
 const Rol=require('../models/rol')
 const User=require('../models/user')
+const Category=require('../models/category')
+const Course=require('../models/course')
 
 const validRol=async(userRol)=>{
     const rolExist=await Rol.findOne({rol:userRol})
@@ -15,6 +17,13 @@ const userEmailAlreadyInUse=async(emailReq)=>{
     }
 }
 
+const courseAlreadyExistsDB=async(course)=>{
+    const courseAlreadyExists=await Course.findOne({course})
+    if (courseAlreadyExists){
+        throw new Error(`This Course Already Exists`)
+    }
+}
+
 const idUserNotFound=async(idReq)=>{
     const userFoundByID=await User.findById(idReq)
     if(!userFoundByID){
@@ -22,8 +31,17 @@ const idUserNotFound=async(idReq)=>{
     }
 }
 
+const idCategoryNotFound=async(idReq)=>{
+    const categoryFoundByID=await Category.findById(idReq)
+    if(!categoryFoundByID){
+        throw new Error(`The category doesn't exist`)
+    }
+}
+
 module.exports={
     validRol,
     userEmailAlreadyInUse,
     idUserNotFound,
+    idCategoryNotFound,
+    courseAlreadyExistsDB
 }
